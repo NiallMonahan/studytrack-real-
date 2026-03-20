@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,5 +20,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('modules', ModuleController::class)->middleware('auth');
+Route::resource('assignments', AssignmentController::class)->middleware('auth');
 
 require __DIR__ . '/auth.php';
