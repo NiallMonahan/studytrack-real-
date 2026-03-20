@@ -9,4 +9,9 @@ class Module extends Model
     protected $fillable = ['code', 'title', 'description'];
 
     public $timestamps = false;
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }
