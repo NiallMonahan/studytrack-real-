@@ -38,6 +38,10 @@
                                 <td class="p-4">{{ $module->title }}</td>
                                 <td class="p-4">{{ $module->description ?? '—' }}</td>
                                 <td class="p-4 flex gap-2">
+                                    <a href="{{ route('modules.show', $module) }}"
+                                        class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                        View
+                                    </a>
                                     <a href="{{ route('modules.edit', $module) }}"
                                         class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">
                                         Edit

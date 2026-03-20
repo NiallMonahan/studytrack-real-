@@ -31,6 +31,11 @@ class ModuleController extends Controller
         return redirect()->route('modules.index')->with('success', 'Module created.');
     }
 
+    public function show(Module $module)
+    {
+        return view('modules.show', compact('module'));
+    }
+
     public function edit(Module $module)
     {
         return view('modules.edit', compact('module'));
