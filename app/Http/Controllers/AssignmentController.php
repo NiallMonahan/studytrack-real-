@@ -2,67 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assignment;
+use App\Models\Attendance;
 use App\Models\Module;
 use Illuminate\Http\Request;
 
-class AssignmentController extends Controller
+class AttendanceController extends Controller
 {
     public function index()
     {
-        $assignments = Assignment::with('module')->get();
-        return view('assignments.index', compact('assignments'));
+        $attendances = Attendance::with('module')->get();
+        return view('attendances.index', compact('attendances'));
     }
 
     public function create()
     {
         $modules = Module::all();
-        return view('assignments.create', compact('modules'));
+        return view('attendances.create', compact('modules'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'module_id'   => 'required|exists:modules,id',
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'due_at'      => 'nullable|date',
+            'module_id' => 'required|exists:modules,id',
+            'student_name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'status' => 'required|in:present,absent,late',
         ]);
 
-        Assignment::create($request->only('module_id', 'title', 'description', 'due_at'));
+        Attendance::create($request->only('module_id', 'student_name', 'date', 'status'));
 
-        return redirect()->route('assignments.index')->with('success', 'Assignment created.');
+        return redirect()->route('attendances.index')->with('success', 'Attendance created.');
     }
 
-    public function show(Assignment $assignment)
+    public function show(Attendance $attendance)
     {
-        return view('assignments.show', compact('assignment'));
+        return view('attendances.show', compact('attendance'));
     }
 
-    public function edit(Assignment $assignment)
+    public function edit(Attendance $attendance)
     {
         $modules = Module::all();
-        return view('assignments.edit', compact('assignment', 'modules'));
+        return view('attendances.edit', compact('attendance', 'modules'));
     }
 
-    public function update(Request $request, Assignment $assignment)
+    public function update(Request $request, Attendance $attendance)
     {
         $request->validate([
-            'module_id'   => 'required|exists:modules,id',
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'due_at'      => 'nullable|date',
+            'module_id' => 'required|exists:modules,id',
+            'student_name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'status' => 'required|in:present,absent,late',
         ]);
 
-        $assignment->update($request->only('module_id', 'title', 'description', 'due_at'));
+        $attendance->update($request->only('module_id', 'student_name', 'date', 'status'));
 
-        return redirect()->route('assignments.index')->with('success', 'Assignment updated.');
+        return redirect()->route('attendances.index')->with('success', 'Attendance updated.');
     }
 
-    public function destroy(Assignment $assignment)
+    public function destroy(Attendance $attendance)
     {
-        $assignment->delete();
+        $attendance->delete();
 
-        return redirect()->route('assignments.index')->with('success', 'Assignment deleted.');
+        return redirect()->route('attendances.index')->with('success', 'Attendance deleted.');
     }
 }
