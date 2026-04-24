@@ -2,67 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
+use App\Models\Assignment;
 use App\Models\Module;
 use Illuminate\Http\Request;
 
-class AttendanceController extends Controller
+class AssignmentController extends Controller
 {
     public function index()
     {
-        $attendances = Attendance::with('module')->get();
-        return view('attendances.index', compact('attendances'));
+        $assignments = Assignment::with('module')->get();
+        return view('assignments.index', compact('assignments'));
     }
 
     public function create()
     {
         $modules = Module::all();
-        return view('attendances.create', compact('modules'));
+        return view('assignments.create', compact('modules'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'module_id' => 'required|exists:modules,id',
-            'student_name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'status' => 'required|in:present,absent,late',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'due_at' => 'nullable|date',
         ]);
 
-        Attendance::create($request->only('module_id', 'student_name', 'date', 'status'));
+        Assignment::create($request->only('module_id', 'title', 'description', 'due_at'));
 
-        return redirect()->route('attendances.index')->with('success', 'Attendance created.');
+        return redirect()->route('assignments.index')->with('success', 'Assignment created.');
     }
 
-    public function show(Attendance $attendance)
+    public function show(Assignment $assignment)
     {
-        return view('attendances.show', compact('attendance'));
+        return view('assignments.show', compact('assignment'));
     }
 
-    public function edit(Attendance $attendance)
+    public function edit(Assignment $assignment)
     {
         $modules = Module::all();
-        return view('attendances.edit', compact('attendance', 'modules'));
+        return view('assignments.edit', compact('assignment', 'modules'));
     }
 
-    public function update(Request $request, Attendance $attendance)
+    public function update(Request $request, Assignment $assignment)
     {
         $request->validate([
             'module_id' => 'required|exists:modules,id',
-            'student_name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'status' => 'required|in:present,absent,late',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'due_at' => 'nullable|date',
         ]);
 
-        $attendance->update($request->only('module_id', 'student_name', 'date', 'status'));
+        $assignment->update($request->only('module_id', 'title', 'description', 'due_at'));
 
-        return redirect()->route('attendances.index')->with('success', 'Attendance updated.');
+        return redirect()->route('assignments.index')->with('success', 'Assignment updated.');
     }
 
-    public function destroy(Attendance $attendance)
+    public function destroy(Assignment $assignment)
     {
-        $attendance->delete();
+        $assignment->delete();
 
-        return redirect()->route('attendances.index')->with('success', 'Attendance deleted.');
+        return redirect()->route('assignments.index')->with('success', 'Assignment deleted.');
     }
 }
