@@ -3,63 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Module;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $attendances = Attendance::with('module')->get();
+        return view('attendances.index', compact('attendances'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $modules = Module::all();
+        return view('attendances.create', compact('modules'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'module_id' => 'required|exists:modules,id',
+            'student_name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'status' => 'required|in:present,absent,late',
+        ]);
+
+        Attendance::create($request->only('module_id', 'student_name', 'date', 'status'));
+
+        return redirect()->route('attendances.index')->with('success', 'Attendance created.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Attendance $attendance)
     {
-        //
+        return view('attendances.show', compact('attendance'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Attendance $attendance)
     {
-        //
+        $modules = Module::all();
+        return view('attendances.edit', compact('attendance', 'modules'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Attendance $attendance)
     {
-        //
+        $request->validate([
+            'module_id' => 'required|exists:modules,id',
+            'student_name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'status' => 'required|in:present,absent,late',
+        ]);
+
+        $attendance->update($request->only('module_id', 'student_name', 'date', 'status'));
+
+        return redirect()->route('attendances.index')->with('success', 'Attendance updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Attendance $attendance)
     {
-        //
+        $attendance->delete();
+
+        return redirect()->route('attendances.index')->with('success', 'Attendance deleted.');
     }
 }
