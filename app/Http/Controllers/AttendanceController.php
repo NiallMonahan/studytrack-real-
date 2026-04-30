@@ -10,13 +10,13 @@ class AttendanceController extends Controller
 {
     public function index()
     {
-        $attendances = Attendance::with('module')->get();
+        $attendances = auth()->user()->attendances()->with('module')->orderBy('date', 'desc')->get();
         return view('attendances.index', compact('attendances'));
     }
 
     public function create()
     {
-        $modules = Module::all();
+        $modules = auth()->user()->modules;
         return view('attendances.create', compact('modules'));
     }
 
@@ -24,43 +24,48 @@ class AttendanceController extends Controller
     {
         $request->validate([
             'module_id' => 'required|exists:modules,id',
-            'student_name' => 'required|string|max:255',
             'date' => 'required|date',
             'status' => 'required|in:present,absent,late',
         ]);
 
-        Attendance::create($request->only('module_id', 'student_name', 'date', 'status'));
+        Attendance::create(array_merge($request->only('module_id', 'date', 'status'), [
+            'user_id' => auth()->id(),
+        ]));
 
-        return redirect()->route('attendances.index')->with('success', 'Attendance created.');
+        return redirect()->route('attendances.index')->with('success', 'Attendance recorded.');
     }
 
     public function show(Attendance $attendance)
     {
+        abort_if($attendance->user_id !== auth()->id(), 403);
         return view('attendances.show', compact('attendance'));
     }
 
     public function edit(Attendance $attendance)
     {
-        $modules = Module::all();
+        abort_if($attendance->user_id !== auth()->id(), 403);
+        $modules = auth()->user()->modules;
         return view('attendances.edit', compact('attendance', 'modules'));
     }
 
     public function update(Request $request, Attendance $attendance)
     {
+        abort_if($attendance->user_id !== auth()->id(), 403);
+
         $request->validate([
             'module_id' => 'required|exists:modules,id',
-            'student_name' => 'required|string|max:255',
             'date' => 'required|date',
             'status' => 'required|in:present,absent,late',
         ]);
 
-        $attendance->update($request->only('module_id', 'student_name', 'date', 'status'));
+        $attendance->update($request->only('module_id', 'date', 'status'));
 
         return redirect()->route('attendances.index')->with('success', 'Attendance updated.');
     }
 
     public function destroy(Attendance $attendance)
     {
+        abort_if($attendance->user_id !== auth()->id(), 403);
         $attendance->delete();
 
         return redirect()->route('attendances.index')->with('success', 'Attendance deleted.');
