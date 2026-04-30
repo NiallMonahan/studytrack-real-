@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->timestamp('due_at')->nullable();
             $table->boolean('completed')->default(false);
+            $table->unsignedTinyInteger('grade')->nullable();
+            $table->unsignedTinyInteger('weight')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
     }

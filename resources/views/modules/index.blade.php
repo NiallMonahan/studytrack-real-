@@ -28,6 +28,7 @@
                             <th class="p-4">Code</th>
                             <th class="p-4">Title</th>
                             <th class="p-4">Description</th>
+                            <th class="p-4">Module Grade</th>
                             <th class="p-4">Actions</th>
                         </tr>
                     </thead>
@@ -37,6 +38,20 @@
                                 <td class="p-4">{{ $module->code }}</td>
                                 <td class="p-4">{{ $module->title }}</td>
                                 <td class="p-4">{{ $module->description ?? '—' }}</td>
+                                <td class="p-4">
+                                    @php
+                                        $graded = $module->assignments->filter(fn($a) => $a->grade !== null && $a->weight !== null);
+                                        $moduleGrade = $graded->sum(fn($a) => $a->grade * $a->weight / 100);
+                                        $totalWeight = $graded->sum('weight');
+                                    @endphp
+                                    @if($graded->count())
+                                        <span class="font-semibold {{ $moduleGrade >= 70 ? 'text-green-600' : ($moduleGrade >= 50 ? 'text-yellow-500' : 'text-red-600') }}">
+                                            {{ round($moduleGrade, 1) }}/{{ $totalWeight }}
+                                        </span>
+                                    @else
+                                        <span class="text-gray-400">—</span>
+                                    @endif
+                                </td>
                                 <td class="p-4 flex gap-2">
                                     <a href="{{ route('modules.show', $module) }}"
                                         class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
@@ -58,7 +73,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="p-4 text-center text-gray-500">No modules yet.</td>
+                                <td colspan="5" class="p-4 text-center text-gray-500">No modules yet.</td>
                             </tr>
                         @endforelse
                     </tbody>

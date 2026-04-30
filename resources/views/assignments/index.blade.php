@@ -91,6 +91,9 @@
                             <th class="p-4">Title</th>
                             <th class="p-4">Module</th>
                             <th class="p-4">Due Date</th>
+                            <th class="p-4">Grade</th>
+                            <th class="p-4">Worth</th>
+                            <th class="p-4">Contribution</th>
                             <th class="p-4">Actions</th>
                         </tr>
                     </thead>
@@ -100,6 +103,26 @@
                                 <td class="p-4 line-through">{{ $assignment->title }}</td>
                                 <td class="p-4">{{ $assignment->module->code }} — {{ $assignment->module->title }}</td>
                                 <td class="p-4">{{ $assignment->due_at ? \Carbon\Carbon::parse($assignment->due_at)->format('d M Y') : '—' }}</td>
+                                <td class="p-4">
+                                    @if($assignment->grade !== null)
+                                        <span class="px-2 py-1 rounded text-sm font-medium
+                                            {{ $assignment->grade >= 70 ? 'bg-green-100 text-green-700' : ($assignment->grade >= 50 ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700') }}">
+                                            {{ $assignment->grade }}%
+                                        </span>
+                                    @else
+                                        <span class="text-gray-400">—</span>
+                                    @endif
+                                </td>
+                                <td class="p-4">
+                                    {{ $assignment->weight !== null ? $assignment->weight . '%' : '—' }}
+                                </td>
+                                <td class="p-4 font-medium">
+                                    @if($assignment->grade !== null && $assignment->weight !== null)
+                                        {{ round($assignment->grade * $assignment->weight / 100, 1) }} / {{ $assignment->weight }}
+                                    @else
+                                        <span class="text-gray-400">—</span>
+                                    @endif
+                                </td>
                                 <td class="p-4 flex gap-2 items-center">
                                     <form action="{{ route('assignments.toggle', $assignment) }}" method="POST">
                                         @csrf
@@ -120,7 +143,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="p-4 text-center text-gray-500">No completed assignments yet.</td>
+                                <td colspan="7" class="p-4 text-center text-gray-500">No completed assignments yet.</td>
                             </tr>
                         @endforelse
                     </tbody>

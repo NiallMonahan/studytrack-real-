@@ -57,6 +57,30 @@
         @error('description') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
     </div>
 
+    {{-- Weight & Grade (side by side) --}}
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label for="weight" class="mb-1 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Worth (% of module grade)
+            </label>
+            <input id="weight" type="number" name="weight" min="1" max="100"
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-2.5 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition"
+                placeholder="e.g. 20"
+                value="{{ old('weight', $assignment->weight ?? '') }}">
+            @error('weight') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
+        </div>
+        <div>
+            <label for="grade" class="mb-1 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                Grade Received (%)
+            </label>
+            <input id="grade" type="number" name="grade" min="0" max="100"
+                class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-2.5 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40 transition"
+                placeholder="e.g. 85"
+                value="{{ old('grade', $assignment->grade ?? '') }}">
+            @error('grade') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
+        </div>
+    </div>
+
     {{-- Actions --}}
     <div class="flex items-center gap-3">
         <button type="submit"

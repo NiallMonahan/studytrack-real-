@@ -59,9 +59,11 @@ class AssignmentController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'due_at' => 'nullable|date',
+            'grade' => 'nullable|integer|min:0|max:100',
+            'weight' => 'nullable|integer|min:1|max:100',
         ]);
 
-        $assignment->update($request->only('module_id', 'title', 'description', 'due_at'));
+        $assignment->update($request->only('module_id', 'title', 'description', 'due_at', 'grade', 'weight'));
 
         return redirect()->route('assignments.index')->with('success', 'Assignment updated.');
     }

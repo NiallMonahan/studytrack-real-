@@ -9,7 +9,7 @@ class ModuleController extends Controller
 {
     public function index()
     {
-        $modules = auth()->user()->modules;
+        $modules = auth()->user()->modules()->with('assignments')->get();
         return view('modules.index', compact('modules'));
     }
 
