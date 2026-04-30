@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ModulesTableSeeder::class,
             AssignmentsTableSeeder::class,
+            AttendancesTableSeeder::class,
         ]);
     }
 }
