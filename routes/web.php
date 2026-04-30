@@ -13,10 +13,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $moduleCount = Module::count();
-    $assignmentCount = Assignment::count();
+    $user = auth()->user();
+    $moduleCount = $user->modules()->count();
+    $assignmentCount = $user->assignments()->count();
 
-    $upcoming = Assignment::whereNotNull('due_at')
+    $upcoming = $user->assignments()
+        ->whereNotNull('due_at')
         ->where('due_at', '>=', now())
         ->orderBy('due_at')
         ->with('module')
