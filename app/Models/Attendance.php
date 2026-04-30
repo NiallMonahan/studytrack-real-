@@ -9,11 +9,16 @@ class Attendance extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'user_id',
         'module_id',
-        'student_name',
         'date',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function module()
     {
