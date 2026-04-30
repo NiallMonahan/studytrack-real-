@@ -25,7 +25,12 @@ Route::get('/dashboard', function () {
         ->take(5)
         ->get();
 
-    return view('dashboard', compact('moduleCount', 'assignmentCount', 'upcoming'));
+    $attendances = $user->attendances()->get();
+    $attendanceTotal = $attendances->count();
+    $attendancePresent = $attendances->whereIn('status', ['present', 'late'])->count();
+    $attendanceRate = $attendanceTotal > 0 ? round(($attendancePresent / $attendanceTotal) * 100) : 0;
+
+    return view('dashboard', compact('moduleCount', 'assignmentCount', 'upcoming', 'attendanceRate', 'attendanceTotal', 'attendancePresent'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

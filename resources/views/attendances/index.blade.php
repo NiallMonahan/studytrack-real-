@@ -27,7 +27,7 @@
             @endphp
 
             @if($grouped->isNotEmpty())
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="flex flex-wrap gap-4">
                     @foreach($grouped as $moduleId => $records)
                         @php
                             $module = $records->first()->module;
@@ -35,7 +35,7 @@
                             $present = $records->whereIn('status', ['present', 'late'])->count();
                             $rate = round(($present / $total) * 100);
                         @endphp
-                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
+                        <div class="flex-1 min-w-[180px] bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 border border-gray-200 dark:border-gray-700">
                             <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $module->code }} — {{ $module->title }}</p>
                             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ $present }}/{{ $total }} classes attended</p>
                             <div class="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">

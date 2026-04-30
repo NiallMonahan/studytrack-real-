@@ -34,6 +34,27 @@
                 </div>
             </div>
 
+            {{-- Attendance Rate --}}
+            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Overall Attendance</h3>
+                    <span class="text-sm font-medium {{ $attendanceRate >= 80 ? 'text-green-600' : ($attendanceRate >= 60 ? 'text-yellow-500' : 'text-red-600') }}">
+                        {{ $attendanceRate }}%
+                    </span>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div class="h-3 rounded-full {{ $attendanceRate >= 80 ? 'bg-green-500' : ($attendanceRate >= 60 ? 'bg-yellow-400' : 'bg-red-500') }}"
+                        style="width: {{ $attendanceRate }}%"></div>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    {{ $attendancePresent }} of {{ $attendanceTotal }} classes attended across all modules
+                </p>
+                <a href="{{ route('attendances.index') }}"
+                    class="mt-3 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                    View Attendance
+                </a>
+            </div>
+
             {{-- Upcoming Assignments --}}
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Upcoming Assignments</h3>
