@@ -9,7 +9,7 @@ class ModuleController extends Controller
 {
     public function index()
     {
-        $modules = Module::all();
+        $modules = auth()->user()->modules;
         return view('modules.index', compact('modules'));
     }
 
@@ -26,23 +26,29 @@ class ModuleController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        Module::create($request->only('code', 'title', 'description'));
+        Module::create(array_merge($request->only('code', 'title', 'description'), [
+            'user_id' => auth()->id(),
+        ]));
 
         return redirect()->route('modules.index')->with('success', 'Module created.');
     }
 
     public function show(Module $module)
     {
+        abort_if($module->user_id !== auth()->id(), 403);
         return view('modules.show', compact('module'));
     }
 
     public function edit(Module $module)
     {
+        abort_if($module->user_id !== auth()->id(), 403);
         return view('modules.edit', compact('module'));
     }
 
     public function update(Request $request, Module $module)
     {
+        abort_if($module->user_id !== auth()->id(), 403);
+
         $request->validate([
             'code' => 'required|string|max:255',
             'title' => 'required|string|max:255',
@@ -56,6 +62,7 @@ class ModuleController extends Controller
 
     public function destroy(Module $module)
     {
+        abort_if($module->user_id !== auth()->id(), 403);
         $module->delete();
 
         return redirect()->route('modules.index')->with('success', 'Module deleted.');
