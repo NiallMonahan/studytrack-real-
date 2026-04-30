@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('module_id')->constrained('modules')->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->timestamp('due_at')->nullable();
+            $table->datetime('due_at')->nullable();
             $table->boolean('completed')->default(false);
             $table->unsignedTinyInteger('grade')->nullable();
             $table->unsignedTinyInteger('weight')->nullable();
