@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
-    protected $fillable = ['user_id', 'module_id', 'title', 'description', 'due_at'];
+    protected $fillable = ['user_id', 'module_id', 'title', 'description', 'due_at', 'completed'];
 
     public $timestamps = false;
 

@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('title');
             $table->text('description')->nullable();
             $table->timestamp('due_at')->nullable();
+            $table->boolean('completed')->default(false);
             $table->timestamp('created_at')->useCurrent();
         });
     }

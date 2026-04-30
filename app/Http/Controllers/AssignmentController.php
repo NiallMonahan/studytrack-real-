@@ -10,8 +10,9 @@ class AssignmentController extends Controller
 {
     public function index()
     {
-        $assignments = auth()->user()->assignments()->with('module')->get();
-        return view('assignments.index', compact('assignments'));
+        $pending = auth()->user()->assignments()->with('module')->where('completed', false)->orderBy('due_at')->get();
+        $completed = auth()->user()->assignments()->with('module')->where('completed', true)->orderBy('due_at')->get();
+        return view('assignments.index', compact('pending', 'completed'));
     }
 
     public function create()
@@ -71,5 +72,13 @@ class AssignmentController extends Controller
         $assignment->delete();
 
         return redirect()->route('assignments.index')->with('success', 'Assignment deleted.');
+    }
+
+    public function toggle(Assignment $assignment)
+    {
+        abort_if($assignment->user_id !== auth()->id(), 403);
+        $assignment->update(['completed' => !$assignment->completed]);
+
+        return redirect()->route('assignments.index');
     }
 }

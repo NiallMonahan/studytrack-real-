@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('modules', ModuleController::class);
     Route::resource('assignments', AssignmentController::class);
+    Route::patch('assignments/{assignment}/toggle', [AssignmentController::class, 'toggle'])->name('assignments.toggle');
     Route::resource('attendances', AttendanceController::class);
 });
 
