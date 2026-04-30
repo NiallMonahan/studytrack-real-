@@ -76,6 +76,20 @@ class AssignmentController extends Controller
         return redirect()->route('assignments.index')->with('success', 'Assignment deleted.');
     }
 
+    public function gradeUpdate(Request $request, Assignment $assignment)
+    {
+        abort_if($assignment->user_id !== auth()->id(), 403);
+
+        $request->validate([
+            'grade' => 'required|integer|min:0|max:100',
+            'weight' => 'required|integer|min:1|max:100',
+        ]);
+
+        $assignment->update($request->only('grade', 'weight'));
+
+        return redirect()->route('assignments.index')->with('success', 'Grade saved.');
+    }
+
     public function toggle(Assignment $assignment)
     {
         abort_if($assignment->user_id !== auth()->id(), 403);

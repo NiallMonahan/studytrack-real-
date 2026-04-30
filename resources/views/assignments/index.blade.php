@@ -92,17 +92,15 @@
                             <th class="p-4">Module</th>
                             <th class="p-4">Due Date</th>
                             <th class="p-4">Grade</th>
-                            <th class="p-4">Worth</th>
-                            <th class="p-4">Contribution</th>
                             <th class="p-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($completed as $assignment)
-                            <tr class="border-t border-gray-200 dark:border-gray-600 opacity-60">
-                                <td class="p-4 line-through">{{ $assignment->title }}</td>
-                                <td class="p-4">{{ $assignment->module->code }} — {{ $assignment->module->title }}</td>
-                                <td class="p-4">{{ $assignment->due_at ? \Carbon\Carbon::parse($assignment->due_at)->format('d M Y') : '—' }}</td>
+                            <tr class="border-t border-gray-200 dark:border-gray-600">
+                                <td class="p-4 line-through opacity-60">{{ $assignment->title }}</td>
+                                <td class="p-4 opacity-60">{{ $assignment->module->code }} — {{ $assignment->module->title }}</td>
+                                <td class="p-4 opacity-60">{{ $assignment->due_at ? \Carbon\Carbon::parse($assignment->due_at)->format('d M Y') : '—' }}</td>
                                 <td class="p-4">
                                     @if($assignment->grade !== null)
                                         <span class="px-2 py-1 rounded text-sm font-medium
@@ -113,17 +111,52 @@
                                         <span class="text-gray-400">—</span>
                                     @endif
                                 </td>
-                                <td class="p-4">
-                                    {{ $assignment->weight !== null ? $assignment->weight . '%' : '—' }}
-                                </td>
-                                <td class="p-4 font-medium">
-                                    @if($assignment->grade !== null && $assignment->weight !== null)
-                                        {{ round($assignment->grade * $assignment->weight / 100, 1) }} / {{ $assignment->weight }}
-                                    @else
-                                        <span class="text-gray-400">—</span>
-                                    @endif
-                                </td>
+
                                 <td class="p-4 flex gap-2 items-center">
+                                    {{-- Grade modal trigger --}}
+                                    <div x-data="{ open: false }">
+                                        <button @click="open = true"
+                                            class="px-3 py-1 {{ $assignment->grade !== null ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-blue-500 hover:bg-blue-600' }} text-white rounded">
+                                            {{ $assignment->grade !== null ? 'Edit Grade' : 'Add Grade' }}
+                                        </button>
+
+                                        <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 w-full max-w-sm space-y-4">
+                                                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                                                    {{ $assignment->title }}
+                                                </h3>
+                                                <form action="{{ route('assignments.grade', $assignment) }}" method="POST" class="space-y-4">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <div>
+                                                        <label class="mb-1 block text-sm font-semibold text-gray-700 dark:text-gray-200">Worth (% of module grade)</label>
+                                                        <input type="number" name="weight" min="1" max="100"
+                                                            class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-2.5 text-gray-900 dark:text-gray-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40"
+                                                            placeholder="e.g. 20"
+                                                            value="{{ $assignment->weight ?? '' }}" required>
+                                                    </div>
+                                                    <div>
+                                                        <label class="mb-1 block text-sm font-semibold text-gray-700 dark:text-gray-200">Grade Received (%)</label>
+                                                        <input type="number" name="grade" min="0" max="100"
+                                                            class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-2.5 text-gray-900 dark:text-gray-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40"
+                                                            placeholder="e.g. 85"
+                                                            value="{{ $assignment->grade ?? '' }}" required>
+                                                    </div>
+                                                    <div class="flex gap-3">
+                                                        <button type="submit"
+                                                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm font-medium">
+                                                            Save Grade
+                                                        </button>
+                                                        <button type="button" @click="open = false"
+                                                            class="text-sm text-gray-500 underline underline-offset-4 hover:text-gray-700">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <form action="{{ route('assignments.toggle', $assignment) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
@@ -143,7 +176,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="p-4 text-center text-gray-500">No completed assignments yet.</td>
+                                <td colspan="5" class="p-4 text-center text-gray-500">No completed assignments yet.</td>
                             </tr>
                         @endforelse
                     </tbody>
