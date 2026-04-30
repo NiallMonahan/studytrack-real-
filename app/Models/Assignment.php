@@ -6,9 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Assignment extends Model
 {
-    protected $fillable = ['module_id', 'title', 'description', 'due_at'];
+    protected $fillable = ['user_id', 'module_id', 'title', 'description', 'due_at'];
 
     public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function module()
     {
