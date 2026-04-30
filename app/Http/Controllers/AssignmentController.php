@@ -10,13 +10,13 @@ class AssignmentController extends Controller
 {
     public function index()
     {
-        $assignments = Assignment::with('module')->get();
+        $assignments = auth()->user()->assignments()->with('module')->get();
         return view('assignments.index', compact('assignments'));
     }
 
     public function create()
     {
-        $modules = Module::all();
+        $modules = auth()->user()->modules;
         return view('assignments.create', compact('modules'));
     }
 
@@ -29,24 +29,30 @@ class AssignmentController extends Controller
             'due_at' => 'nullable|date',
         ]);
 
-        Assignment::create($request->only('module_id', 'title', 'description', 'due_at'));
+        Assignment::create(array_merge($request->only('module_id', 'title', 'description', 'due_at'), [
+            'user_id' => auth()->id(),
+        ]));
 
         return redirect()->route('assignments.index')->with('success', 'Assignment created.');
     }
 
     public function show(Assignment $assignment)
     {
+        abort_if($assignment->user_id !== auth()->id(), 403);
         return view('assignments.show', compact('assignment'));
     }
 
     public function edit(Assignment $assignment)
     {
-        $modules = Module::all();
+        abort_if($assignment->user_id !== auth()->id(), 403);
+        $modules = auth()->user()->modules;
         return view('assignments.edit', compact('assignment', 'modules'));
     }
 
     public function update(Request $request, Assignment $assignment)
     {
+        abort_if($assignment->user_id !== auth()->id(), 403);
+
         $request->validate([
             'module_id' => 'required|exists:modules,id',
             'title' => 'required|string|max:255',
@@ -61,6 +67,7 @@ class AssignmentController extends Controller
 
     public function destroy(Assignment $assignment)
     {
+        abort_if($assignment->user_id !== auth()->id(), 403);
         $assignment->delete();
 
         return redirect()->route('assignments.index')->with('success', 'Assignment deleted.');
