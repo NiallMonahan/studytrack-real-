@@ -16,14 +16,14 @@
 
             <div class="mb-4">
                 <a href="{{ route('modules.create') }}"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    class="px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500">
                     Add Module
                 </a>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-violet-100 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <table class="w-full text-left text-gray-900 dark:text-gray-100">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
+                    <thead class="bg-violet-200 dark:bg-gray-700">
                         <tr>
                             <th class="p-4">Code</th>
                             <th class="p-4">Title</th>
@@ -54,20 +54,18 @@
                                 </td>
                                 <td class="p-4 flex gap-2">
                                     <a href="{{ route('modules.show', $module) }}"
-                                        class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                        class="px-3 py-1 bg-violet-400 text-white rounded hover:bg-violet-500">
                                         View
                                     </a>
                                     <a href="{{ route('modules.edit', $module) }}"
-                                        class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">
+                                        class="px-3 py-1 bg-sky-300 text-white rounded hover:bg-sky-400">
                                         Edit
                                     </a>
                                     <form action="{{ route('modules.destroy', $module) }}" method="POST"
                                         onsubmit="return confirm('Delete this module?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                            Delete
-                                        </button>
+                                        <button class="text-red-400 hover:text-red-600 text-xl font-bold leading-none" title="Delete">✕</button>
                                     </form>
                                 </td>
                             </tr>

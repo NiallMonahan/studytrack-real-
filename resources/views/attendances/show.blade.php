@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 space-y-4">
+            <div class="bg-violet-100 dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 space-y-4">
 
                 <div>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Module</p>
@@ -33,7 +33,7 @@
 
                 <div class="flex gap-3 pt-2">
                     <a href="{{ route('attendances.edit', $attendance) }}"
-                        class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500">
+                        class="px-4 py-2 bg-sky-300 text-white rounded hover:bg-sky-400">
                         Edit
                     </a>
                     <a href="{{ route('attendances.index') }}"

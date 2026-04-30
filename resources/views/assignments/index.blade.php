@@ -16,18 +16,18 @@
 
             <div>
                 <a href="{{ route('assignments.create') }}"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    class="px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500">
                     Add Assignment
                 </a>
             </div>
 
             {{-- Pending Assignments --}}
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-violet-100 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Pending</h3>
                 </div>
                 <table class="w-full text-left text-gray-900 dark:text-gray-100">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
+                    <thead class="bg-violet-200 dark:bg-gray-700">
                         <tr>
                             <th class="p-4">Title</th>
                             <th class="p-4">Module</th>
@@ -53,21 +53,19 @@
                                     <form action="{{ route('assignments.toggle', $assignment) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <button class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600" title="Mark complete">
+                                        <button class="px-3 py-1 bg-emerald-400 text-white rounded hover:bg-emerald-500" title="Mark complete">
                                             ✓
                                         </button>
                                     </form>
                                     <a href="{{ route('assignments.edit', $assignment) }}"
-                                        class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">
+                                        class="px-3 py-1 bg-sky-300 text-white rounded hover:bg-sky-400">
                                         Edit
                                     </a>
                                     <form action="{{ route('assignments.destroy', $assignment) }}" method="POST"
                                         onsubmit="return confirm('Delete this assignment?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                            Delete
-                                        </button>
+                                        <button class="text-red-400 hover:text-red-600 text-xl font-bold leading-none" title="Delete">✕</button>
                                     </form>
                                 </td>
                             </tr>
@@ -81,12 +79,12 @@
             </div>
 
             {{-- Completed Assignments --}}
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-violet-100 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Completed</h3>
                 </div>
                 <table class="w-full text-left text-gray-900 dark:text-gray-100">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
+                    <thead class="bg-violet-200 dark:bg-gray-700">
                         <tr>
                             <th class="p-4">Title</th>
                             <th class="p-4">Module</th>
@@ -116,12 +114,12 @@
                                     {{-- Grade modal trigger --}}
                                     <div x-data="{ open: false }">
                                         <button @click="open = true"
-                                            class="px-3 py-1 {{ $assignment->grade !== null ? 'bg-indigo-500 hover:bg-indigo-600' : 'bg-blue-500 hover:bg-blue-600' }} text-white rounded">
+                                            class="px-3 py-1 {{ $assignment->grade !== null ? 'bg-violet-500 hover:bg-violet-600' : 'bg-violet-400 hover:bg-violet-500' }} text-white rounded">
                                             {{ $assignment->grade !== null ? 'Edit Grade' : 'Add Grade' }}
                                         </button>
 
                                         <div x-show="open" x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                                            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 w-full max-w-sm space-y-4">
+                                            <div class="bg-violet-100 dark:bg-gray-800 rounded-xl shadow-xl p-6 w-full max-w-sm space-y-4">
                                                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
                                                     {{ $assignment->title }}
                                                 </h3>
@@ -160,7 +158,7 @@
                                     <form action="{{ route('assignments.toggle', $assignment) }}" method="POST">
                                         @csrf
                                         @method('PATCH')
-                                        <button class="px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500" title="Mark incomplete">
+                                        <button class="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400" title="Mark incomplete">
                                             ↩
                                         </button>
                                     </form>
@@ -168,9 +166,7 @@
                                         onsubmit="return confirm('Delete this assignment?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                            Delete
-                                        </button>
+                                        <button class="text-red-400 hover:text-red-600 text-xl font-bold leading-none" title="Delete">✕</button>
                                     </form>
                                 </td>
                             </tr>

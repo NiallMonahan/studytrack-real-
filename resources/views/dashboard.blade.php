@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             {{-- Welcome Banner --}}
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-8">
+            <div class="bg-violet-100 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-8">
                 <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     Welcome back, {{ Auth::user()->name }}!
                 </h3>
@@ -18,24 +18,24 @@
 
             {{-- Stats --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 text-center">
+                <div class="bg-violet-100 dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 text-center">
                     <p class="text-4xl font-bold text-gray-900 dark:text-gray-100">{{ $moduleCount }}</p>
                     <p class="text-gray-500 dark:text-gray-400 mt-1">Modules</p>
                     <a href="{{ route('modules.index') }}"
-                        class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">View
+                        class="mt-4 inline-block px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500 text-sm">View
                         Modules</a>
                 </div>
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 text-center">
+                <div class="bg-violet-100 dark:bg-gray-800 shadow-sm sm:rounded-lg p-6 text-center">
                     <p class="text-4xl font-bold text-gray-900 dark:text-gray-100">{{ $assignmentCount }}</p>
                     <p class="text-gray-500 dark:text-gray-400 mt-1">Assignments</p>
                     <a href="{{ route('assignments.index') }}"
-                        class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">View
+                        class="mt-4 inline-block px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500 text-sm">View
                         Assignments</a>
                 </div>
             </div>
 
             {{-- Attendance Rate --}}
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
+            <div class="bg-violet-100 dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Overall Attendance</h3>
                     <span class="text-sm font-medium {{ $attendanceRate >= 80 ? 'text-green-600' : ($attendanceRate >= 60 ? 'text-yellow-500' : 'text-red-600') }}">
@@ -50,13 +50,13 @@
                     {{ $attendancePresent }} of {{ $attendanceTotal }} classes attended across all modules
                 </p>
                 <a href="{{ route('attendances.index') }}"
-                    class="mt-3 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                    class="mt-3 inline-block px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500 text-sm">
                     View Attendance
                 </a>
             </div>
 
             {{-- Upcoming Assignments --}}
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-violet-100 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Upcoming Assignments</h3>
 
                 @if($upcoming->isEmpty())

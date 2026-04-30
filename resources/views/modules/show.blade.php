@@ -9,7 +9,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             {{-- Module Info --}}
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
+            <div class="bg-violet-100 dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
                 <div class="mb-4">
                     <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Module Code</span>
                     <p class="text-gray-900 dark:text-gray-100 font-semibold">{{ $module->code }}</p>
@@ -27,22 +27,22 @@
 
                 <div class="flex gap-2">
                     <a href="{{ route('modules.edit', $module) }}"
-                        class="px-4 py-2 bg-yellow-400 text-white rounded hover:bg-yellow-500">
+                        class="px-4 py-2 bg-sky-300 text-white rounded hover:bg-sky-400">
                         Edit
                     </a>
                     <a href="{{ route('modules.index') }}"
-                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
                         Back
                     </a>
                 </div>
             </div>
 
             {{-- Assignments --}}
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
+            <div class="bg-violet-100 dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">Assignments</h3>
                     <a href="{{ route('assignments.create') }}"
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                        class="px-4 py-2 bg-violet-400 text-white rounded hover:bg-violet-500 text-sm">
                         Add Assignment
                     </a>
                 </div>
@@ -61,20 +61,18 @@
                                 </div>
                                 <div class="flex gap-2">
                                     <a href="{{ route('assignments.show', $assignment) }}"
-                                        class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm">
+                                        class="px-3 py-1 bg-violet-400 text-white rounded hover:bg-violet-500 text-sm">
                                         View
                                     </a>
                                     <a href="{{ route('assignments.edit', $assignment) }}"
-                                        class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 text-sm">
+                                        class="px-3 py-1 bg-sky-300 text-white rounded hover:bg-sky-400 text-sm">
                                         Edit
                                     </a>
                                     <form action="{{ route('assignments.destroy', $assignment) }}" method="POST"
                                         onsubmit="return confirm('Delete this assignment?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm">
-                                            Delete
-                                        </button>
+                                        <button class="text-red-400 hover:text-red-600 text-xl font-bold leading-none" title="Delete">✕</button>
                                     </form>
                                 </div>
                             </li>
